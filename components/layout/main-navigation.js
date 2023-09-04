@@ -1,7 +1,9 @@
+"use client";
 import styled from "styled-components";
 import Link from "next/link";
 import People from "../icons/people";
 import Person from "../icons/person";
+import { signOut, useSession } from "next-auth/react";
 
 const Header = styled.div`
   width: 100%;
@@ -46,6 +48,7 @@ const UserInfo = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin-right: 2rem;
+  position: relative;
   button {
     border: 0;
     background-color: transparent;
@@ -59,6 +62,10 @@ const UserInfo = styled.div`
   }
 `;
 const MainNavigation = () => {
+  const logOut = () => {
+    signOut();
+  };
+  const { data: session, state } = useSession();
   return (
     <Header>
       <Logo>
@@ -68,26 +75,30 @@ const MainNavigation = () => {
         {/* 나머지 page 구현 후 navigation link url 수정 필요 */}
         <Categoris>
           <li>
-            <Link href="/">TODAY</Link>
+            <Link href="/today">TODAY</Link>
           </li>
           <li>
             <Link href="/">식단표</Link>
           </li>
           <li>
-            <Link href="/">식품검색</Link>
+            <Link href="/search">식품검색</Link>
           </li>
           <li>
-            <Link href="/">일지 템플릿</Link>
+            <Link href="/template">일지 템플릿</Link>
           </li>
         </Categoris>
       </nav>
       <UserInfo>
-        <button type="button">
-          <People />
-        </button>
-        <button type="button">
-          <Person />
-        </button>
+        {session && (
+          <button type="button" onClick={logOut}>
+            <People />
+          </button>
+        )}
+        <Link href="/sign-in">
+          <button type="button">
+            <Person />
+          </button>
+        </Link>
       </UserInfo>
     </Header>
   );
