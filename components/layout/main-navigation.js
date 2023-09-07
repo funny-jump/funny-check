@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import Link from "next/link";
-import People from "../icons/people";
-import Person from "../icons/person";
+import styled from 'styled-components';
+import Link from 'next/link';
+import People from '../icons/people';
+import Person from '../icons/person';
 
 const Header = styled.div`
   width: 100%;
@@ -71,7 +71,7 @@ const MainNavigation = () => {
             <Link href="/">TODAY</Link>
           </li>
           <li>
-            <Link href="/">식단표</Link>
+            <Link href="/board">식단표</Link>
           </li>
           <li>
             <Link href="/">식품검색</Link>
