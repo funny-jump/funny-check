@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "date-fns": "^2.30.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "mongodb": "^6.0.0",
@@ -19,5 +20,8 @@
     "react-dom": "18.2.0",
     "styled-components": "^6.0.7"
   },
-  "packageManager": "yarn@3.6.3"
+  "packageManager": "yarn@3.6.3",
+  "devDependencies": {
+    "babel-plugin-styled-components": "^2.1.4"
+  }
 }
