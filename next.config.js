@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  swcMinify: true,
+  compiler: {
+    styledComponents: true,
+  },
   env: {
     NEXTAUTH_SECRET: "asdsadasd",
     mongodb_username: "funny-check_01",

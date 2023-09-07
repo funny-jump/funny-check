@@ -78,7 +78,7 @@ const MainNavigation = () => {
             <Link href="/today">TODAY</Link>
           </li>
           <li>
-            <Link href="/">식단표</Link>
+            <Link href="/board">식단표</Link>
           </li>
           <li>
             <Link href="/search">식품검색</Link>
