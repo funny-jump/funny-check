@@ -1,7 +1,9 @@
 'use client';
+
 import MainNavigation from '@/components/layout/main-navigation';
 import './globals.css';
 import { Inter } from 'next/font/google';
+import AuthProvider from '@/components/auth/auth-form-provider';
 import StyledComponentsRegistry from '@/lib/registry';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -15,10 +17,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <StyledComponentsRegistry>
-          <MainNavigation />
-          {children}
-        </StyledComponentsRegistry>
+        <AuthProvider>
+          <StyledComponentsRegistry>
+            <MainNavigation />
+            {children}
+          </StyledComponentsRegistry>
+        </AuthProvider>
       </body>
     </html>
   );
