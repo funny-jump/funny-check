@@ -1,8 +1,9 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
 import { signIn, useSession } from "next-auth/react";
+import Toast from "../layout/toast";
 
 const LoginFormBox = styled.div`
   display: flex;
@@ -55,6 +56,8 @@ const LoginTitle = styled.div`
 `;
 
 const EditForm = () => {
+  const [toast, setToast] = useState(false);
+  const [message, setMessage] = useState("");
   const { data: session, state } = useSession();
   const inputPassword = useRef();
   const inputChangePassword = useRef();
@@ -82,13 +85,24 @@ const EditForm = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setToast(true);
+        setMessage(data.message);
         console.log(data);
-        router.replace("/");
+        if (data.status == 200) {
+          const timer = setTimeout(() => {
+            router.push("/");
+            setToast(false);
+          }, 1500);
+          return () => {
+            clearTimeout(timer);
+          };
+        }
       });
   };
 
   return (
     <LoginFormBox>
+      {toast && <Toast setToast={setToast} text={message}></Toast>}
       <form onSubmit={onSubmitHandler}>
         <LoginTitle>
           <h1>비밀 번호 변경</h1>

@@ -13,7 +13,10 @@ export const PATCH = async (req) => {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.json({ message: "허가되지 않은 사용자 입니다." });
+    return NextResponse.json({
+      status: 405,
+      message: "허가되지 않은 사용자 입니다.",
+    });
   }
 
   console.log("edit-info/rouet.js : session email : ", session.user.email);
@@ -31,15 +34,23 @@ export const PATCH = async (req) => {
   console.log("edit-info/rouet.js : user from db : ", user);
   if (!user) {
     client.close();
-    return NextResponse.json({ message: "db에 존재하지 않습니다." });
+    return NextResponse.json({
+      status: 405,
+      message: "존재하지 않는 이메일 입니다.",
+    });
   }
 
   const currentPassword = user.password;
-  if (!compare(oldPassword, currentPassword)) {
+
+  const vaildPassword = await compare(oldPassword, currentPassword);
+  if (!vaildPassword) {
     client.close();
-    return NextResponse.json({ message: "비밀번호가 틀립니다." });
+    return NextResponse.json({
+      status: 405,
+      message: "비밀번호가 틀립니다. 다시 입력해 주세요.",
+    });
   }
-  console.log("edit-info/rouet.js :  old pass === user password from db ");
+  console.log("edit-info/rouet.js :  old password === user password from db ");
 
   const hashedPassword = await hash(newPassword, 12);
 
@@ -47,7 +58,7 @@ export const PATCH = async (req) => {
     { email: userEmail },
     { $set: { password: hashedPassword } }
   );
-  console.log("edit-info/rouet.js :  update pass in db ");
+  console.log("edit-info/rouet.js :  update new password in db ");
   const changedpass = await compare(newPassword, user.password);
   const data = {
     oldpass: oldPassword,
@@ -55,5 +66,9 @@ export const PATCH = async (req) => {
     changedpass: changedpass,
   };
   client.close();
-  return NextResponse.json(data);
+  return NextResponse.json({
+    status: 200,
+    message: "비밀번호가 변경되었습니다.",
+    data,
+  });
 };

@@ -1,8 +1,7 @@
 "use client";
-import { redirect } from "next/navigation";
+
 import styled from "styled-components";
 
-import { useSession } from "next-auth/react";
 import SearchList from "@/components/search-list";
 import SearchDetail from "@/components/search-datail";
 import { useState } from "react";
@@ -19,10 +18,7 @@ const Search = () => {
     setSearch(item);
     console.log("search/page.js : searched item : ", item);
   };
-  const { data: session, state } = useSession();
-  if (!session) {
-    redirect("/sign-in");
-  }
+
   return (
     <Box>
       <div>
