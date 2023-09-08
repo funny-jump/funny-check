@@ -25,14 +25,19 @@ const SearchList = ({ search, setSearch }) => {
     setSearch("");
   };
   const [data, setData] = useState([]);
+  console.log("search-list search : ", search);
   useEffect(() => {
-    fetch("/api/search")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.data);
-        setData(data.data);
-        console.log(search);
-      });
+    if (search.length === 0) {
+      console.log("search-list search is null: ");
+      fetch("/api/search")
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data);
+        });
+    } else {
+      console.log("search-list search is not tnull: ");
+      setData(search);
+    }
   }, [search]);
 
   return (
@@ -51,7 +56,7 @@ const SearchList = ({ search, setSearch }) => {
           </tr>
         </thead>
         <tbody>
-          {search === ""
+          {search.length === 0
             ? data.map((m) => (
                 <tr>
                   <SearchListItem
@@ -63,20 +68,17 @@ const SearchList = ({ search, setSearch }) => {
                   ></SearchListItem>
                 </tr>
               ))
-            : data.map(
-                (m) =>
-                  search === m["음식명"] && (
-                    <tr>
-                      <SearchListItem
-                        kcal={m["1인분칼로리(kcal)"]}
-                        name={m["음식명"]}
-                        carbohydrate={m["탄수화물(g)"]}
-                        protein={m["탄수화물(g)"]}
-                        lipid={m["지방(g)"]}
-                      ></SearchListItem>
-                    </tr>
-                  )
-              )}
+            : data.map((m) => (
+                <tr>
+                  <SearchListItem
+                    kcal={m["1인분칼로리(kcal)"]}
+                    name={m["음식명"]}
+                    carbohydrate={m["탄수화물(g)"]}
+                    protein={m["탄수화물(g)"]}
+                    lipid={m["지방(g)"]}
+                  ></SearchListItem>
+                </tr>
+              ))}
         </tbody>
       </table>
     </ListBox>

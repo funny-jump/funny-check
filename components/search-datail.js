@@ -29,6 +29,7 @@ const SearchDetail = (props) => {
       .then((res) => res.json())
       .then((data) => {
         props.getFood(data);
+        console.log("search-detail / response data : ", data);
       });
   };
 

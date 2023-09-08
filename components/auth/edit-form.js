@@ -2,7 +2,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Toast from "../layout/toast";
 
 const LoginFormBox = styled.div`
@@ -52,73 +52,70 @@ const LoginBtn = styled.div`
 const LoginTitle = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: 1.5rem;
 `;
 
-const SignUpBtn = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-  button {
-    background-color: black;
-    border: 0;
-    color: white;
-    font-size: 1.5rem;
-    border-radius: 5px;
-    &:hover {
-      cursor: pointer;
-      color: #ff0d64;
-    }
-  }
-`;
-
-const AuthForm = () => {
+const EditForm = () => {
   const [toast, setToast] = useState(false);
   const [message, setMessage] = useState("");
-  const inputEmail = useRef();
+  const { data: session, state } = useSession();
   const inputPassword = useRef();
+  const inputChangePassword = useRef();
   const router = useRouter();
+
   const cancelBtn = () => {
     router.back();
   };
-  const signUpBtn = () => {
-    router.push("/sign-up");
-  };
 
-  const onSubmitHandler = async (event) => {
+  const onSubmitHandler = (event) => {
+    console.log("edit-form : 비밀번호 변경 요청");
     event.preventDefault();
 
-    signIn("credentials", {
-      redirect: false,
-      email: inputEmail.current.value,
+    const data = {
       password: inputPassword.current.value,
-    }).then((result) => {
-      setToast(true);
-      setMessage(result.error);
-      if (!result.error) {
-        setMessage("로그인 성공하였습니다.");
-        const timer = setTimeout(() => {
-          router.push("/");
-          setToast(false);
-        }, 1500);
-        return () => {
-          clearTimeout(timer);
-        };
-      }
-    });
+      changePassword: inputChangePassword.current.value,
+    };
+
+    fetch("/api/edit-info", {
+      method: "PATCH",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setToast(true);
+        setMessage(data.message);
+        if (data.status == 200) {
+          const timer = setTimeout(() => {
+            router.push("/");
+            setToast(false);
+          }, 1500);
+          return () => {
+            clearTimeout(timer);
+          };
+        }
+      });
   };
+
   return (
     <LoginFormBox>
       {toast && <Toast setToast={setToast} text={message}></Toast>}
       <form onSubmit={onSubmitHandler}>
         <LoginTitle>
-          <h1>로그인</h1>
+          <h1>비밀 번호 변경</h1>
         </LoginTitle>
+
+        <LoginInput>
+          <h1>이메일 : {session.user.email}</h1>
+        </LoginInput>
         <LoginInput>
           <input
-            type="email"
-            id="email"
-            placeholder="이메일을 입력하세요"
-            ref={inputEmail}
+            type="password"
+            id="password"
+            placeholder="기존 비밀번호"
+            ref={inputPassword}
             required
           ></input>
         </LoginInput>
@@ -126,24 +123,19 @@ const AuthForm = () => {
           <input
             type="password"
             id="password"
-            placeholder="비밀번호를 입력하세요"
-            ref={inputPassword}
+            placeholder="변경 할 비밀번호"
+            ref={inputChangePassword}
             required
           ></input>
         </LoginInput>
         <LoginBtn>
-          <button>로그인</button>
+          <button>변경하기</button>
           <button type="button" onClick={cancelBtn}>
             취소
           </button>
         </LoginBtn>
-        <SignUpBtn>
-          <button type="button" onClick={signUpBtn}>
-            회원가입
-          </button>
-        </SignUpBtn>
       </form>
     </LoginFormBox>
   );
 };
-export default AuthForm;
+export default EditForm;

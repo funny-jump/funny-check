@@ -147,7 +147,7 @@ const MainNavigation = () => {
                 </button>
               </Link>
               <ul>
-                <li>이메일 : session </li>
+                <li>이메일 : {session.user.email} </li>
                 <li>
                   <button type="button" onClick={onClickHandler}>
                     친구 리스트
