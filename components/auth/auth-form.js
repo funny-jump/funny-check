@@ -1,8 +1,9 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
 import { signIn } from "next-auth/react";
+import Toast from "../layout/toast";
 
 const LoginFormBox = styled.div`
   display: flex;
@@ -71,6 +72,8 @@ const SignUpBtn = styled.div`
 `;
 
 const AuthForm = () => {
+  const [toast, setToast] = useState(false);
+  const [message, setMessage] = useState("");
   const inputEmail = useRef();
   const inputPassword = useRef();
   const router = useRouter();
@@ -89,16 +92,23 @@ const AuthForm = () => {
       email: inputEmail.current.value,
       password: inputPassword.current.value,
     }).then((result) => {
-      console.log(result);
+      setToast(true);
+      setMessage(result.error);
       if (!result.error) {
-        router.replace("/");
-      } else {
-        console.log(result);
+        setMessage("로그인 성공하였습니다.");
+        const timer = setTimeout(() => {
+          router.push("/");
+          setToast(false);
+        }, 1500);
+        return () => {
+          clearTimeout(timer);
+        };
       }
     });
   };
   return (
     <LoginFormBox>
+      {toast && <Toast setToast={setToast} text={message}></Toast>}
       <form onSubmit={onSubmitHandler}>
         <LoginTitle>
           <h1>로그인</h1>

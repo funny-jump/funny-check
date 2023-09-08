@@ -87,7 +87,6 @@ const EditForm = () => {
       .then((data) => {
         setToast(true);
         setMessage(data.message);
-        console.log(data);
         if (data.status == 200) {
           const timer = setTimeout(() => {
             router.push("/");
