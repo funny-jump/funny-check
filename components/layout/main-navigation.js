@@ -45,11 +45,24 @@ const Categoris = styled.ul`
 
 const UserInfo = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   margin-right: 2rem;
   position: relative;
+  span {
+    margin-left: 1rem;
+    a {
+      color: black;
+      text-decoration: none;
+      &:hover {
+        color: gray;
+      }
+    }
+  }
+
   button {
+    font-size: 1rem;
+    padding: 0;
     border: 0;
     background-color: transparent;
     &:hover {
@@ -60,8 +73,44 @@ const UserInfo = styled.div`
   button + button {
     margin-left: 1rem;
   }
+  ul {
+    li {
+      position: relative;
+
+      ul {
+        width: 10rem;
+        height: auto;
+        position: absolute;
+        visibility: hidden;
+        background-color: white;
+
+        z-index: 2;
+        border: 1rem;
+        li {
+          padding: 0.4rem;
+          &:hover {
+            background-color: #fcfbfb;
+          }
+          margin: 0.5rem;
+          a {
+            font-size: 1rem;
+            color: black;
+            text-decoration: none;
+          }
+        }
+      }
+      &:hover {
+        ul {
+          visibility: visible;
+        }
+      }
+    }
+  }
 `;
 const MainNavigation = () => {
+  const onClickHandler = () => {
+    //친구 리스트 모달 불러오기
+  };
   const logOut = () => {
     signOut();
   };
@@ -89,16 +138,48 @@ const MainNavigation = () => {
         </Categoris>
       </nav>
       <UserInfo>
-        {session && (
-          <button type="button" onClick={logOut}>
-            <People />
-          </button>
+        {session != null ? (
+          <ul>
+            <li>
+              <Link href="/sign-in">
+                <button type="button">
+                  <Person />
+                </button>
+              </Link>
+              <ul>
+                <li>이메일 : session </li>
+                <li>
+                  <button type="button" onClick={onClickHandler}>
+                    친구 리스트
+                  </button>
+                </li>
+                <li>
+                  <Link href="/edit-info">개인정보 수정</Link>
+                </li>
+                <li>
+                  <Link href="weight-data">체중변화</Link>
+                </li>
+                <li>
+                  <button type="button" onClick={logOut}>
+                    로그아웃
+                  </button>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        ) : (
+          <>
+            <span>
+              <Link href="/sign-in">로그인</Link>
+            </span>
+            <span>
+              <h1>/</h1>
+            </span>
+            <span>
+              <Link href="/sign-up">회원가입</Link>
+            </span>
+          </>
         )}
-        <Link href="/sign-in">
-          <button type="button">
-            <Person />
-          </button>
-        </Link>
       </UserInfo>
     </Header>
   );

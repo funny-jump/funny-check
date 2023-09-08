@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
 import { hash } from "bcryptjs";
+import Template from "@/app/template/page";
 const url = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.zwyfzii.mongodb.net/?retryWrites=true&w=majority`;
 export const POST = async (req) => {
   const request = await req.json();
@@ -20,6 +21,7 @@ export const POST = async (req) => {
   const user = {
     email: request.email,
     password: hashedPassword,
+    name: request.name,
   };
 
   /*existed user*/
