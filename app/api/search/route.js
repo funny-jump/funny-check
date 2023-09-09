@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 /* 전체 리스트 불러오기 */
 export const GET = async () => {
   const res = await fetch(
-    `https://api.odcloud.kr/api/15050912/v1/uddi:0a633058-9843-40fe-93d0-b568f23b715e_201909261047?page=1&perPage=30&serviceKey=${process.env.api_key}`
+    `https://api.odcloud.kr/api/15050912/v1/uddi:0a633058-9843-40fe-93d0-b568f23b715e_201909261047?page=1&perPage=637&serviceKey=${process.env.api_key}`
   );
   const data = await res.json();
   return NextResponse.json(data.data);
@@ -16,7 +16,7 @@ export const POST = async (req) => {
   const search = request.data;
 
   const res = await fetch(
-    `https://api.odcloud.kr/api/15050912/v1/uddi:0a633058-9843-40fe-93d0-b568f23b715e_201909261047?page=1&perPage=30&serviceKey=${process.env.api_key}`
+    `https://api.odcloud.kr/api/15050912/v1/uddi:0a633058-9843-40fe-93d0-b568f23b715e_201909261047?page=1&perPage=637&serviceKey=${process.env.api_key}`
   );
   const data = await res.json();
 

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import SearchList from "@/components/search-list";
 import SearchDetail from "@/components/search-datail";
 import { useState } from "react";
+// import Pagenation from "@/components/pagination";
 
 const Box = styled.div`
   display: flex;
@@ -24,6 +25,11 @@ const Search = () => {
       <div>
         <SearchDetail getFood={getFood} />
         <SearchList search={search} setSearch={setSearch} />
+        {/* <Pagenation
+          postsPerPage={postsPerPage}
+          totalPosts={posts.length}
+          paginate={setCurrentPage}
+        ></Pagenation> */}
       </div>
     </Box>
   );
