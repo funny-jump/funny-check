@@ -6,4 +6,4 @@ function MenuEditPage() {
   );
 }
 
-return MenuEditPage;
+export default MenuEditPage;

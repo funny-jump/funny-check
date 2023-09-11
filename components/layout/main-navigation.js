@@ -1,9 +1,12 @@
-"use client";
-import styled from "styled-components";
-import Link from "next/link";
-import People from "../icons/people";
-import Person from "../icons/person";
-import { signOut, useSession } from "next-auth/react";
+'use client';
+
+import Link from 'next/link';
+import { format } from 'date-fns';
+import styled from 'styled-components';
+import { signOut, useSession } from 'next-auth/react';
+
+import People from '../icons/people';
+import Person from '../icons/person';
 
 const Header = styled.div`
   width: 100%;
@@ -108,6 +111,8 @@ const UserInfo = styled.div`
   }
 `;
 const MainNavigation = () => {
+  const now = format(Date.now(), 'yyyy-MM-dd');
+
   const onClickHandler = () => {
     //친구 리스트 모달 불러오기
   };
@@ -115,6 +120,7 @@ const MainNavigation = () => {
     signOut();
   };
   const { data: session, state } = useSession();
+
   return (
     <Header>
       <Logo>
@@ -124,7 +130,7 @@ const MainNavigation = () => {
         {/* 나머지 page 구현 후 navigation link url 수정 필요 */}
         <Categoris>
           <li>
-            <Link href="/today">TODAY</Link>
+            <Link href={`/today`}>TODAY</Link>
           </li>
           <li>
             <Link href="/board">식단표</Link>
