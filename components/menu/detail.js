@@ -1,8 +1,15 @@
 'use client';
 
+import styled from 'styled-components';
+
+const StyledMenuDetail = styled.table`
+  width: 100%;
+  margin-top: 1rem;
+`;
+
 function MenuDetail({ menus }) {
   return (
-    <table>
+    <StyledMenuDetail>
       <thead>
         <tr>
           <th>음식</th>
@@ -13,8 +20,8 @@ function MenuDetail({ menus }) {
         </tr>
       </thead>
       <tbody>
-        {menus?.map(menu => (
-          <tr key={menu.id}>
+        {menus?.map((menu, index) => (
+          <tr key={index}>
             <td>{menu.name}</td>
             <td>{menu.carbohydrate}</td>
             <td>{menu.protein}</td>
@@ -23,7 +30,7 @@ function MenuDetail({ menus }) {
           </tr>
         ))}
       </tbody>
-    </table>
+    </StyledMenuDetail>
   );
 }
 

@@ -1,5 +1,3 @@
-'use client';
-
 function BoardLayout({ children, modal }) {
   return (
     <div>
