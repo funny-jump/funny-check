@@ -1,11 +1,10 @@
 "use client";
 import styled from "styled-components";
 import Link from "next/link";
-import People from "../icons/people";
 import Person from "../icons/person";
 import { signOut, useSession } from "next-auth/react";
 
-const Header = styled.div`
+const Header = styled.header`
   width: 100%;
   height: 7rem;
   background-color: #fcfbfb;
@@ -13,7 +12,6 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const Logo = styled.div`
   font-size: 2rem;
   margin-left: 4rem;
@@ -42,7 +40,6 @@ const Categoris = styled.ul`
     margin-left: 2rem;
   }
 `;
-
 const UserInfo = styled.div`
   display: flex;
   justify-content: center;

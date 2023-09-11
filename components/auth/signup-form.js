@@ -86,7 +86,7 @@ const SignUpForm = () => {
       .then((res) => res.json())
       .then((data) => {
         setToast(true);
-        console.log(data);
+
         setMessage(data.message);
         if (data.status == 200) {
           const timer = setTimeout(() => {

@@ -11,7 +11,6 @@ export const authOptions = {
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
-        console.log("1");
         const client = await MongoClient.connect(url);
         const db = client.db("funny-check");
         const user = await db
@@ -26,11 +25,11 @@ export const authOptions = {
         const isValid = await compare(credentials.password, user.password);
         if (!isValid) {
           client.close();
-          console.log("2");
+
           throw new Error("비밀번호가 틀립니다.");
         }
         client.close();
-        console.log("3");
+
         return { email: user.email };
       },
     }),

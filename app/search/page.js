@@ -17,7 +17,6 @@ const Search = () => {
 
   const getFood = (item) => {
     setSearch(item);
-    console.log("search/page.js : searched item : ", item);
   };
 
   return (
@@ -25,11 +24,6 @@ const Search = () => {
       <div>
         <SearchDetail getFood={getFood} />
         <SearchList search={search} setSearch={setSearch} />
-        {/* <Pagenation
-          postsPerPage={postsPerPage}
-          totalPosts={posts.length}
-          paginate={setCurrentPage}
-        ></Pagenation> */}
       </div>
     </Box>
   );

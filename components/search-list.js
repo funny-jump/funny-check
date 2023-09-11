@@ -33,11 +33,10 @@ const SearchList = ({ search, setSearch }) => {
   const totalPage = 637;
   const start = perPage * page - perPage;
   const end = start + perPage;
-  console.log("search-list search : ", search);
+
   useEffect(() => {
     setLoading(true);
     if (search.length === 0) {
-      console.log("search-list search is null: ");
       fetch(`/api/search`)
         .then((res) => res.json())
         .then((data) => {
@@ -45,7 +44,6 @@ const SearchList = ({ search, setSearch }) => {
           setLoading(false);
         });
     } else {
-      console.log("search-list search is not null: ");
       setLoading(false);
       setData(search);
     }

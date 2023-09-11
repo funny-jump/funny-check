@@ -4,10 +4,10 @@ import EditForm from "@/components/auth/edit-form";
 import { useSession } from "next-auth/react";
 
 const EditInfoPage = () => {
-  const { data: session, state } = useSession();
-  if (!session) {
-    redirect("/sign-in");
-  }
+  // const { data: session, state } = useSession();
+  // if (!session) {
+  //   redirect("/sign-in");
+  // }
   return (
     <>
       <EditForm />

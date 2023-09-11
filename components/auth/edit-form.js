@@ -68,7 +68,6 @@ const EditForm = () => {
   };
 
   const onSubmitHandler = (event) => {
-    console.log("edit-form : 비밀번호 변경 요청");
     event.preventDefault();
 
     const data = {
