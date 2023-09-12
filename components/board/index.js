@@ -23,9 +23,7 @@ const StyledCalendarBodyBox = styled.div`
   height: 93%;
 `;
 
-function Board(props) {
-  const { now } = props;
-
+function Board({ now, totalInfos }) {
   const [isMonth, setIsMonth] = useState(true);
   const [viewNow, setViewNow] = useState(now);
 
@@ -57,7 +55,11 @@ function Board(props) {
         <CalendarHeader handlers={controlerHandlers} states={controlerStates} />
       </StyledHeaderBox>
       <StyledCalendarBodyBox>
-        <CalendarBody states={claendarStates} now={now} />
+        <CalendarBody
+          states={claendarStates}
+          now={now}
+          totalInfos={totalInfos}
+        />
       </StyledCalendarBodyBox>
     </StyledMain>
   );

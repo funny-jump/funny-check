@@ -4,10 +4,18 @@ import { MongoClient } from 'mongodb';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getDbUrl } from '@/utils';
-import Modal from '@/components/ui/board-modal';
-import MenuDetail from '@/components/menu/detail';
 
-async function BoardModal({ params }) {
+const getMealTotalCalorie = meal =>
+  meal.reduce((acc, cur) => acc + Number(cur.calorie), 0);
+
+const getDietTotalCalories = diet => {
+  const breakfastTotalCalorie = getMealTotalCalorie(diet.breakfast);
+  const lunchTotalCalorie = getMealTotalCalorie(diet.lunch);
+  const dinnerTotalCalorie = getMealTotalCalorie(diet.dinner);
+  return breakfastTotalCalorie + lunchTotalCalorie + dinnerTotalCalorie;
+};
+
+async function Calorie({ date }) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -32,18 +40,12 @@ async function BoardModal({ params }) {
     );
   }
 
-  const date = params.date;
   const diet = user.diets[date];
+  const cal = diet ? getDietTotalCalories(diet) : undefined;
 
   client.close();
 
-  return (
-    <Modal date={date}>
-      <MenuDetail
-        diet={diet ? diet : { breakfast: [], lunch: [], dinner: [] }}
-      />
-    </Modal>
-  );
+  <div>{cal && `cals: ${cal}`}</div>;
 }
 
-export default BoardModal;
+export default Calorie;
