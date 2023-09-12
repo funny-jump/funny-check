@@ -1,7 +1,6 @@
 'use client';
 
-import { forwardRef, useRef } from 'react';
-import Dropdown from './dropdown';
+import { forwardRef } from 'react';
 
 const SearchMenu = forwardRef(({ handlers }, refs) => {
   return (

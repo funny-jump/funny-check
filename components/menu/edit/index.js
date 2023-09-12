@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import MenuTotal from './total';
-import EditMeal from './meal';
+import MenuTotal from '../menu-total';
+import EditMeal from './edit-meal';
 
 const StyledHeader = styled.header`
   display: flex;
@@ -22,22 +22,6 @@ const StyledEdit = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-
-const totalCal = arr =>
-  arr.reduce(
-    (acc, cur) => ({
-      carbohydrate: acc.carbohydrate + cur.carbohydrate,
-      protein: acc.protein + cur.protein,
-      province: acc.province + cur.province,
-      calorie: acc.calorie + cur.calorie,
-    }),
-    {
-      carbohydrate: 0,
-      protein: 0,
-      province: 0,
-      calorie: 0,
-    }
-  );
 
 function MenuEdit({ date, diet }) {
   const { breakfast, lunch, dinner } = diet;
@@ -60,19 +44,10 @@ function MenuEdit({ date, diet }) {
         },
       });
 
-      // const data = await res.json();
+      const data = await res.json();
 
-      // console.log(data.message);
+      console.log(data.message);
     },
-  };
-
-  const breakfastTotal = totalCal(bMeal);
-  const lunchTotal = totalCal(lMeal);
-  const dinnerTotal = totalCal(dMeal);
-
-  const totals = {
-    name: 'total',
-    ...totalCal([breakfastTotal, lunchTotal, dinnerTotal]),
   };
 
   return (
@@ -85,7 +60,7 @@ function MenuEdit({ date, diet }) {
         <EditMeal title="아침" menus={bMeal} addMenu={setBMeal} />
         <EditMeal title="점심" menus={lMeal} addMenu={setLMeal} />
         <EditMeal title="저녁" menus={dMeal} addMenu={setDMeal} />
-        <MenuTotal totals={totals} />
+        <MenuTotal menus={[...bMeal, ...lMeal, ...dMeal]} />
       </StyledEdit>
     </form>
   );

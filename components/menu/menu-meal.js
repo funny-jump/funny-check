@@ -2,14 +2,14 @@
 
 import styled from 'styled-components';
 
-const StyledMenuDetail = styled.table`
+const StyledMenuMeal = styled.table`
   width: 100%;
   margin-top: 1rem;
 `;
 
-function MenuDetail({ menus }) {
+function MenuMeal({ menus }) {
   return (
-    <StyledMenuDetail>
+    <StyledMenuMeal>
       <thead>
         <tr>
           <th>음식</th>
@@ -30,8 +30,8 @@ function MenuDetail({ menus }) {
           </tr>
         ))}
       </tbody>
-    </StyledMenuDetail>
+    </StyledMenuMeal>
   );
 }
 
-export default MenuDetail;
+export default MenuMeal;

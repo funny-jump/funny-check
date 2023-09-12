@@ -13,8 +13,6 @@ async function MenuEditPage({ params }) {
     redirect('/sign-in');
   }
 
-  const date = params.date;
-
   const email = session.user.email;
 
   const url = getDbUrl();
@@ -33,6 +31,7 @@ async function MenuEditPage({ params }) {
     );
   }
 
+  const date = params.date;
   const diet = user.diets[date];
 
   client.close();

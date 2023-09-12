@@ -3,8 +3,8 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 
-import MenuSearch from './search';
-import MenuDetail from '../detail';
+import MenuSearch from './edit-search';
+import MenuMeal from '../menu-meal';
 
 const StyledMeal = styled.div``;
 const StyledHeader = styled.header``;
@@ -18,14 +18,6 @@ function EditMeal({ title, menus, addMenu }) {
     protein: useRef(),
     province: useRef(),
     calorie: useRef(),
-  };
-
-  const initInputs = () => {
-    refs.searchInput.current.value = '';
-    refs.carbohydrate.current.value = '';
-    refs.protein.current.value = '';
-    refs.province.current.value = '';
-    refs.calorie.current.value = '';
   };
 
   const handlers = {
@@ -70,13 +62,21 @@ function EditMeal({ title, menus, addMenu }) {
     },
   };
 
+  const initInputs = () => {
+    refs.searchInput.current.value = '';
+    refs.carbohydrate.current.value = '';
+    refs.protein.current.value = '';
+    refs.province.current.value = '';
+    refs.calorie.current.value = '';
+  };
+
   return (
     <StyledMeal>
       <StyledHeader>
         <h3>{title}</h3>
       </StyledHeader>
       <MenuSearch handlers={handlers} ref={refs} />
-      <MenuDetail menus={menus} />
+      <MenuMeal menus={menus} />
     </StyledMeal>
   );
 }
