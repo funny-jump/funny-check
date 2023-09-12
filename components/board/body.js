@@ -15,8 +15,9 @@ import {
 import StyledCalendarMonth from './styled-month';
 import StyledCalendarWeek from './styled-week';
 import StyledCalendarDate from './styled-date';
+// import Calorie from './calorie';
 
-function CalendarBody({ states: { viewNow }, now }) {
+function CalendarBody({ states: { viewNow }, now, totalInfos }) {
   const monthStart = startOfMonth(viewNow);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
@@ -55,7 +56,31 @@ function CalendarBody({ states: { viewNow }, now }) {
               isNowDate={dateInfo.isNowDate}>
               <Link href={`/menu-detail/${dateInfo.str}`}>
                 <time>{dateInfo.date}</time>
-                <div>dummy</div>
+                <div>
+                  {totalInfos[dateInfo.str]
+                    ? `탄: ${totalInfos[dateInfo.str].carbohydrate.toFixed(
+                        2
+                      )}(g)`
+                    : ''}
+                </div>
+                <div>
+                  {totalInfos[dateInfo.str]
+                    ? `단: ${totalInfos[dateInfo.str].protein.toFixed(2)}(g)`
+                    : ''}
+                </div>
+                <div>
+                  {totalInfos[dateInfo.str]
+                    ? `지: ${totalInfos[dateInfo.str].province.toFixed(2)}(g)`
+                    : ''}
+                </div>
+                <div>
+                  {totalInfos[dateInfo.str]
+                    ? `cal: ${totalInfos[dateInfo.str].calorie.toFixed(
+                        2
+                      )}(kcal)`
+                    : ''}
+                </div>
+                {/* <Calorie date={dateInfo.str} /> */}
               </Link>
             </StyledCalendarDate>
           ))}
