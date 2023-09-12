@@ -3,13 +3,17 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
+export const metadata = {
+  title: "sign in page",
+  description: "sign in page, input your email and password",
+};
+
 const SignInPage = async () => {
   const session = await getServerSession(authOptions);
-  console.log("Session", JSON.stringify(session, null, 2));
-
   if (session) {
     redirect("/");
   }
+
   return (
     <>
       <AuthForm />

@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import styled from "styled-components";
+
+const pageListNum = 8;
 
 const PageUl = styled.ul`
   float: left;
@@ -10,7 +12,6 @@ const PageUl = styled.ul`
   border-radius: 3px;
   padding: 1px;
 `;
-
 const PageLi = styled.li`
   display: inline-block;
   font-size: 17px;
@@ -19,8 +20,7 @@ const PageLi = styled.li`
   border-radius: 5px;
   width: 25px;
 `;
-
-const PageSpan = styled.button`
+const PageButton = styled.button`
   border: 0;
   background: none;
   &:disabled {
@@ -39,35 +39,37 @@ const NavButton = styled.button`
     color: #ff0d64;
   }
 `;
+
 const Pagenation = ({ postsPerPage, totalPosts, setPage }) => {
   const [index, setIndex] = useState(1);
-  const pageNumsPerPage = 8;
-  const [a, setA] = useState(new Array(pageNumsPerPage).fill(false));
+  const [isSeleted, setIsSelected] = useState(
+    new Array(pageListNum).fill(false)
+  );
 
   const onClickHandler = (number, index) => {
     setPage(number);
-    setA(a.map((m, i) => (i == index ? true : false)));
+    setIsSelected(isSeleted.map((n, i) => (i == index ? true : false)));
   };
 
-  const start = pageNumsPerPage * index - pageNumsPerPage;
-  const end = start + pageNumsPerPage;
+  const start = pageListNum * index - pageListNum;
+  const end = start + pageListNum;
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
 
   return (
-    <div>
+    <footer>
       <nav>
-        <PageUl className="pagination">
+        <PageUl>
           <NavButton
             type="button"
             onClick={() => {
               if (index > 1) {
                 setIndex(index - 1);
                 setPage(start);
-                setA(
-                  a.map((m, i) => (i == pageNumsPerPage - 1 ? true : false))
+                setIsSelected(
+                  isSeleted.map((m, i) => (i == pageListNum - 1 ? true : false))
                 );
               }
             }}
@@ -76,13 +78,12 @@ const Pagenation = ({ postsPerPage, totalPosts, setPage }) => {
           </NavButton>
           {pageNumbers.slice(start, end).map((number, index) => (
             <PageLi key={number} className="page-item">
-              <PageSpan
-                disabled={a[index]}
+              <PageButton
+                disabled={isSeleted[index]}
                 onClick={() => onClickHandler(number, index)}
-                className="page-link"
               >
                 {number}
-              </PageSpan>
+              </PageButton>
             </PageLi>
           ))}
           <NavButton
@@ -91,7 +92,7 @@ const Pagenation = ({ postsPerPage, totalPosts, setPage }) => {
               if (index < 22) {
                 setIndex(index + 1);
                 setPage(end + 1);
-                setA(a.map((m, i) => (i == 0 ? true : false)));
+                setIsSelected(isSeleted.map((m, i) => (i == 0 ? true : false)));
               }
             }}
           >
@@ -99,7 +100,7 @@ const Pagenation = ({ postsPerPage, totalPosts, setPage }) => {
           </NavButton>
         </PageUl>
       </nav>
-    </div>
+    </footer>
   );
 };
 

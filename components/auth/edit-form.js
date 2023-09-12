@@ -2,10 +2,10 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import styled from "styled-components";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Toast from "../layout/toast";
 
-const LoginFormBox = styled.div`
+const EditFormBox = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
@@ -14,8 +14,12 @@ const LoginFormBox = styled.div`
     width: 720px;
   }
 `;
-
-const LoginInput = styled.div`
+const EditTitle = styled.header`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+`;
+const EditInputBox = styled.div`
   display: flex;
   justify-content: center;
   input {
@@ -30,7 +34,7 @@ const LoginInput = styled.div`
     margin-top: 0.5rem;
   }
 `;
-const LoginBtn = styled.div`
+const EditBtnBox = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 2rem;
@@ -49,68 +53,62 @@ const LoginBtn = styled.div`
     margin-left: 1rem;
   }
 `;
-const LoginTitle = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-`;
 
 const EditForm = () => {
+  const { data: session, state } = useSession();
+
+  const router = useRouter();
+
   const [toast, setToast] = useState(false);
   const [message, setMessage] = useState("");
-  const { data: session, state } = useSession();
+
   const inputPassword = useRef();
   const inputChangePassword = useRef();
-  const router = useRouter();
 
   const cancelBtn = () => {
     router.back();
   };
 
-  const onSubmitHandler = (event) => {
-    console.log("edit-form : 비밀번호 변경 요청");
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    const data = {
+    const userInfo = {
       password: inputPassword.current.value,
       changePassword: inputChangePassword.current.value,
     };
 
-    fetch("/api/edit-info", {
+    const result = await fetch("/api/edit-info", {
       method: "PATCH",
-      body: JSON.stringify(data),
+      body: JSON.stringify(userInfo),
       headers: {
         "Content-type": "application/json",
       },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setToast(true);
-        setMessage(data.message);
-        if (data.status == 200) {
-          const timer = setTimeout(() => {
-            router.push("/");
-            setToast(false);
-          }, 1500);
-          return () => {
-            clearTimeout(timer);
-          };
-        }
-      });
+    });
+    const data = await result.json();
+    setToast(true);
+    setMessage(data.message);
+    if (data.status == 200) {
+      const timer = setTimeout(() => {
+        router.push("/");
+        setToast(false);
+      }, 1500);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   };
 
   return (
-    <LoginFormBox>
+    <EditFormBox>
       {toast && <Toast setToast={setToast} text={message}></Toast>}
       <form onSubmit={onSubmitHandler}>
-        <LoginTitle>
+        <EditTitle>
           <h1>비밀 번호 변경</h1>
-        </LoginTitle>
-
-        <LoginInput>
+        </EditTitle>
+        <EditInputBox>
           <h1>이메일 : {session.user.email}</h1>
-        </LoginInput>
-        <LoginInput>
+        </EditInputBox>
+        <EditInputBox>
           <input
             type="password"
             id="password"
@@ -118,8 +116,8 @@ const EditForm = () => {
             ref={inputPassword}
             required
           ></input>
-        </LoginInput>
-        <LoginInput>
+        </EditInputBox>
+        <EditInputBox>
           <input
             type="password"
             id="password"
@@ -127,15 +125,15 @@ const EditForm = () => {
             ref={inputChangePassword}
             required
           ></input>
-        </LoginInput>
-        <LoginBtn>
+        </EditInputBox>
+        <EditBtnBox>
           <button>변경하기</button>
           <button type="button" onClick={cancelBtn}>
             취소
           </button>
-        </LoginBtn>
+        </EditBtnBox>
       </form>
-    </LoginFormBox>
+    </EditFormBox>
   );
 };
 export default EditForm;

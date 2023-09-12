@@ -2,10 +2,16 @@
 
 import styled from "styled-components";
 
-import SearchList from "@/components/search-list";
-import SearchDetail from "@/components/search-datail";
+import SearchDetail from "@/components/search/search-datail";
+import SearchList from "@/components/search/search-list";
 import { useState } from "react";
 // import Pagenation from "@/components/pagination";
+
+export const metadata = {
+  title: "search page",
+  description:
+    "search page, this page view all food data in database. if you search food data, input food name and click search button",
+};
 
 const Box = styled.div`
   display: flex;
@@ -17,7 +23,6 @@ const Search = () => {
 
   const getFood = (item) => {
     setSearch(item);
-    console.log("search/page.js : searched item : ", item);
   };
 
   return (
@@ -25,11 +30,6 @@ const Search = () => {
       <div>
         <SearchDetail getFood={getFood} />
         <SearchList search={search} setSearch={setSearch} />
-        {/* <Pagenation
-          postsPerPage={postsPerPage}
-          totalPosts={posts.length}
-          paginate={setCurrentPage}
-        ></Pagenation> */}
       </div>
     </Box>
   );

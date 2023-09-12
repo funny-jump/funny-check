@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import styled from "styled-components";
 
-const Box = styled.div`
+const SearchBox = styled.div`
   button {
     background-color: black;
     color: white;
@@ -16,30 +16,28 @@ const Box = styled.div`
 `;
 const SearchDetail = (props) => {
   const inputData = useRef();
-  const onSubmitHandler = (event) => {
+
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
 
     const searchData = {
       data: inputData.current.value,
     };
-    fetch("/api/search", {
+    const result = await fetch("/api/search", {
       method: "POST",
       body: JSON.stringify(searchData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        props.getFood(data);
-        console.log("search-detail / response data : ", data);
-      });
+    });
+    const data = await result.json();
+    props.getFood(data);
   };
 
   return (
-    <Box>
+    <SearchBox>
       <form onSubmit={onSubmitHandler}>
         <input type="text" placeholder="search" ref={inputData}></input>
         <button>검색</button>
       </form>
-    </Box>
+    </SearchBox>
   );
 };
 

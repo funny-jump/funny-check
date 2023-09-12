@@ -14,7 +14,6 @@ const LoginFormBox = styled.div`
     width: 720px;
   }
 `;
-
 const LoginInput = styled.div`
   display: flex;
   justify-content: center;
@@ -53,7 +52,6 @@ const LoginTitle = styled.div`
   display: flex;
   justify-content: center;
 `;
-
 const SignUpBtn = styled.div`
   display: flex;
   justify-content: center;
@@ -70,13 +68,13 @@ const SignUpBtn = styled.div`
     }
   }
 `;
-
 const AuthForm = () => {
   const [toast, setToast] = useState(false);
   const [message, setMessage] = useState("");
   const inputEmail = useRef();
   const inputPassword = useRef();
   const router = useRouter();
+
   const cancelBtn = () => {
     router.back();
   };
@@ -87,25 +85,25 @@ const AuthForm = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    signIn("credentials", {
+    const result = await signIn("credentials", {
       redirect: false,
       email: inputEmail.current.value,
       password: inputPassword.current.value,
-    }).then((result) => {
-      setToast(true);
-      setMessage(result.error);
-      if (!result.error) {
-        setMessage("로그인 성공하였습니다.");
-        const timer = setTimeout(() => {
-          router.push("/");
-          setToast(false);
-        }, 1500);
-        return () => {
-          clearTimeout(timer);
-        };
-      }
     });
+    setToast(true);
+    setMessage(result.error);
+    if (!result.error) {
+      setMessage("로그인 성공하였습니다.");
+      const timer = setTimeout(() => {
+        router.push("/");
+        setToast(false);
+      }, 1500);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   };
+
   return (
     <LoginFormBox>
       {toast && <Toast setToast={setToast} text={message}></Toast>}
