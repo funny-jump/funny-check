@@ -8,7 +8,6 @@ const Box = styled.div`
   width: 100%;
   height: calc(100vh - 7rem);
 `;
-
 const ImageBox = styled.div`
   width: 100%;
   height: 100%;
@@ -25,7 +24,6 @@ const ImageBox = styled.div`
     top: 50%;
   }
 `;
-
 const Hero = () => {
   return (
     <Box>
@@ -46,5 +44,4 @@ const Hero = () => {
     </Box>
   );
 };
-
 export default Hero;

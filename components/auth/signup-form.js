@@ -14,7 +14,7 @@ const SignUpFormBox = styled.div`
     width: 720px;
   }
 `;
-const SignUpInput = styled.div`
+const SignUpInputBox = styled.div`
   display: flex;
   justify-content: center;
   input {
@@ -29,7 +29,7 @@ const SignUpInput = styled.div`
     margin-top: 0.5rem;
   }
 `;
-const SignUpBtn = styled.div`
+const SignUpBtnBox = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 2rem;
@@ -48,25 +48,26 @@ const SignUpBtn = styled.div`
     margin-left: 1rem;
   }
 `;
-const SignUpTitle = styled.div`
+const SignUpTitle = styled.header`
   display: flex;
   justify-content: center;
 `;
-
 const SignUpForm = () => {
-  const router = useRouter();
+  const [toast, setToast] = useState(false);
+  const [message, setMessage] = useState("");
+
   const inputEmail = useRef();
   const inputPassword = useRef();
   const inputName = useRef();
   const inputPasswordCheck = useRef();
-  const [toast, setToast] = useState(false);
-  const [message, setMessage] = useState("");
+
+  const router = useRouter();
 
   const cancelBtn = () => {
     router.back();
   };
 
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
 
     const userData = {
@@ -76,28 +77,26 @@ const SignUpForm = () => {
       name: inputName.current.value,
     };
 
-    fetch("/api/sign-up", {
+    const result = await fetch("/api/sign-up", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: {
         "Content-type": "application/json",
       },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setToast(true);
+    });
 
-        setMessage(data.message);
-        if (data.status == 200) {
-          const timer = setTimeout(() => {
-            router.push("/sign-in");
-            setToast(false);
-          }, 1500);
-          return () => {
-            clearTimeout(timer);
-          };
-        }
-      });
+    const data = await result.json();
+    setToast(true);
+    setMessage(data.message);
+    if (data.status == 200) {
+      const timer = setTimeout(() => {
+        router.push("/sign-in");
+        setToast(false);
+      }, 1500);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
   };
 
   return (
@@ -107,7 +106,7 @@ const SignUpForm = () => {
         <SignUpTitle>
           <h1>회원가입</h1>
         </SignUpTitle>
-        <SignUpInput>
+        <SignUpInputBox>
           <input
             type="text"
             id="name"
@@ -115,8 +114,8 @@ const SignUpForm = () => {
             ref={inputName}
             required
           ></input>
-        </SignUpInput>
-        <SignUpInput>
+        </SignUpInputBox>
+        <SignUpInputBox>
           <input
             type="email"
             id="email"
@@ -124,8 +123,8 @@ const SignUpForm = () => {
             ref={inputEmail}
             required
           ></input>
-        </SignUpInput>
-        <SignUpInput>
+        </SignUpInputBox>
+        <SignUpInputBox>
           <input
             type="password"
             id="password"
@@ -133,8 +132,8 @@ const SignUpForm = () => {
             ref={inputPassword}
             required
           ></input>
-        </SignUpInput>
-        <SignUpInput>
+        </SignUpInputBox>
+        <SignUpInputBox>
           <input
             type="password"
             id="password"
@@ -142,13 +141,13 @@ const SignUpForm = () => {
             ref={inputPasswordCheck}
             required
           ></input>
-        </SignUpInput>
-        <SignUpBtn>
+        </SignUpInputBox>
+        <SignUpBtnBox>
           <button>회원가입</button>
           <button type="button" onClick={cancelBtn}>
             취소
           </button>
-        </SignUpBtn>
+        </SignUpBtnBox>
       </form>
     </SignUpFormBox>
   );

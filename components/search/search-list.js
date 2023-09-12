@@ -4,7 +4,7 @@ import SearchListItem from "./search-list-item";
 import { useEffect, useState } from "react";
 import Pagenation from "./pagination";
 
-const ListBox = styled.div`
+const SearchListBox = styled.div`
   margin-top: 1rem;
   table {
     border: 1px solid #444444;
@@ -22,17 +22,19 @@ const ListBox = styled.div`
 `;
 
 const SearchList = ({ search, setSearch }) => {
-  const initSearch = () => {
-    setSearch("");
-    setPage(1);
-  };
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+
   const perPage = 10;
   const totalPage = 637;
   const start = perPage * page - perPage;
   const end = start + perPage;
+
+  const initSearch = () => {
+    setSearch("");
+    setPage(1);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -51,7 +53,7 @@ const SearchList = ({ search, setSearch }) => {
 
   return (
     <>
-      <ListBox>
+      <SearchListBox>
         <button type="button" onClick={initSearch}>
           전체보기
         </button>
@@ -97,7 +99,7 @@ const SearchList = ({ search, setSearch }) => {
             </tbody>
           )}
         </table>
-      </ListBox>
+      </SearchListBox>
       {search.length === 0 && (
         <Pagenation
           postsPerPage={perPage}

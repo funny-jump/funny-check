@@ -1,8 +1,9 @@
 "use client";
 import styled from "styled-components";
 import Link from "next/link";
-import Person from "../icons/person";
 import { signOut, useSession } from "next-auth/react";
+
+import Person from "../icons/person";
 
 const Header = styled.header`
   width: 100%;
@@ -105,20 +106,18 @@ const UserInfo = styled.div`
   }
 `;
 const MainNavigation = () => {
-  const onClickHandler = () => {
-    //친구 리스트 모달 불러오기
-  };
+  const { data: session, state } = useSession();
+
   const logOut = () => {
     signOut();
   };
-  const { data: session, state } = useSession();
+
   return (
     <Header>
       <Logo>
         <Link href="/">FUNNY CHECK</Link>
       </Logo>
       <nav>
-        {/* 나머지 page 구현 후 navigation link url 수정 필요 */}
         <Categoris>
           <li>
             <Link href="/today">TODAY</Link>
@@ -129,9 +128,9 @@ const MainNavigation = () => {
           <li>
             <Link href="/search">식품검색</Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="/template">일지 템플릿</Link>
-          </li>
+          </li> */}
         </Categoris>
       </nav>
       <UserInfo>
@@ -145,17 +144,17 @@ const MainNavigation = () => {
               </Link>
               <ul>
                 <li>이메일 : {session.user.email} </li>
-                <li>
+                {/* <li>
                   <button type="button" onClick={onClickHandler}>
                     친구 리스트
                   </button>
-                </li>
+                </li> */}
                 <li>
                   <Link href="/edit-info">개인정보 수정</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href="weight-data">체중변화</Link>
-                </li>
+                </li> */}
                 <li>
                   <button type="button" onClick={logOut}>
                     로그아웃

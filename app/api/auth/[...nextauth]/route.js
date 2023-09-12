@@ -5,6 +5,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 const url = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.zwyfzii.mongodb.net/?retryWrites=true&w=majority`;
 
 export const authOptions = {
+  session: {
+    maxAge: 60 * 10,
+  },
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
   },
