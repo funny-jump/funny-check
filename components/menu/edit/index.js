@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 import MenuTotal from '../menu-total';
@@ -26,6 +27,8 @@ const StyledEdit = styled.div`
 function MenuEdit({ date, diet }) {
   const { breakfast, lunch, dinner } = diet;
 
+  const router = useRouter();
+
   const [bMeal, setBMeal] = useState(breakfast);
   const [lMeal, setLMeal] = useState(lunch);
   const [dMeal, setDMeal] = useState(dinner);
@@ -43,6 +46,10 @@ function MenuEdit({ date, diet }) {
           'Content-type': 'application/json',
         },
       });
+
+      if (res.ok) {
+        router.push('/board');
+      }
 
       const data = await res.json();
 
