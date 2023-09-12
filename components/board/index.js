@@ -4,9 +4,8 @@ import { useState } from 'react';
 import { addMonths, subMonths } from 'date-fns';
 import styled from 'styled-components';
 
-import CalendarHeader from '../../components/calendar/header';
-import CalendarMonthBody from '../../components/calendar/month-body';
-// import CalendarWeek from '../calendar/week';
+import CalendarHeader from './header';
+import CalendarBody from './body';
 
 const StyledMain = styled.main`
   width: 100%;
@@ -36,6 +35,7 @@ function Board(props) {
   };
 
   const claendarStates = {
+    isMonth,
     viewNow,
   };
 
@@ -57,7 +57,7 @@ function Board(props) {
         <CalendarHeader handlers={controlerHandlers} states={controlerStates} />
       </StyledHeaderBox>
       <StyledCalendarBodyBox>
-        <CalendarMonthBody states={claendarStates} now={now} />
+        <CalendarBody states={claendarStates} now={now} />
       </StyledCalendarBodyBox>
     </StyledMain>
   );

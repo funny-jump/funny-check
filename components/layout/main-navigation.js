@@ -1,6 +1,8 @@
 "use client";
-import styled from "styled-components";
+
 import Link from "next/link";
+import { format } from "date-fns";
+import styled from "styled-components";
 import { signOut, useSession } from "next-auth/react";
 
 import Person from "../icons/person";
@@ -106,11 +108,12 @@ const UserInfo = styled.div`
   }
 `;
 const MainNavigation = () => {
-  const { data: session, state } = useSession();
+  const now = format(Date.now(), "yyyy-MM-dd");
 
   const logOut = () => {
     signOut();
   };
+  const { data: session, state } = useSession();
 
   return (
     <Header>
@@ -120,7 +123,7 @@ const MainNavigation = () => {
       <nav>
         <Categoris>
           <li>
-            <Link href="/today">TODAY</Link>
+            <Link href={`/today`}>TODAY</Link>
           </li>
           <li>
             <Link href="/board">식단표</Link>
